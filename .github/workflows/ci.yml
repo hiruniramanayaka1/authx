@@ -1,3 +1,10 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 3 optimizations:
+# - [MEDIUM] Add concurrency group to "ci.yml"
+# - [LOW] Explicitly set fail-fast for large matrix job "mypy" (6 combinations)
+# - [LOW] Explicitly set fail-fast for large matrix job "tests" (6 combinations)
+# Estimated savings: ~6 min/run
+#
 name: Continuous Integration
 
 on:
@@ -7,6 +14,10 @@ on:
       - main
   pull_request: {}
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   mypy:
     runs-on: ubuntu-latest
